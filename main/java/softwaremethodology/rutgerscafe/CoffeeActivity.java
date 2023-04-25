@@ -33,6 +33,7 @@ public class CoffeeActivity extends AppCompatActivity {
 
     private double subTotal = 0;
     private double basePrice = 1.89;
+    private double priceOfAddIns = 0;
     public static final int SMALL = 0;
     public static final int TALL = 1;
     public static final int GRANDE = 2;
@@ -60,10 +61,8 @@ public class CoffeeActivity extends AppCompatActivity {
         ventiSize = findViewById(R.id.ventiSize);
         runningTotal = findViewById(R.id.coffeeRunningTotal);
         shortSize.setChecked(true);
-
         info = (GlobalInformation) getApplicationContext();
         orderArchive = info.getOrderArchive();
-
         runningTotal.setText("Running Total: $" + String.format("%.2f",subTotal + basePrice));
     }
 
@@ -106,10 +105,9 @@ public class CoffeeActivity extends AppCompatActivity {
         frenchVanilla.setChecked(false);
         quantitySpinner.setSelection(0);
         basePrice = 1.89;
-        runningTotal.setText("Running Total: $" + String.format("%.2f",subTotal + basePrice));
+        priceOfAddIns = 0;
+        runningTotal.setText("Running Total: $" + String.format("%.2f",subTotal + basePrice + priceOfAddIns));
     }
-
-
 
     public void checkButton(View view) {
         boolean checked = ((RadioButton) view).isChecked();
@@ -143,73 +141,73 @@ public class CoffeeActivity extends AppCompatActivity {
 
     public void sweetCreamSelect(View view) {
         if(!sweetCream.isChecked()){
-            basePrice -= addOnPrice;
+            priceOfAddIns -= addOnPrice;
         }
         else{
-            basePrice += addOnPrice;
+            priceOfAddIns += addOnPrice;
         }
-        runningTotal.setText("Running Total: $" + String.format("%.2f",subTotal + basePrice));
+        runningTotal.setText("Running Total: $" + String.format("%.2f",subTotal + basePrice + priceOfAddIns));
     }
 
     public void frenchVanillaSelect(View view) {
         if(!frenchVanilla.isChecked()){
-            basePrice -= addOnPrice;
+            priceOfAddIns -= addOnPrice;
         }
         else{
-            basePrice += addOnPrice;
+            priceOfAddIns += addOnPrice;
         }
-        runningTotal.setText("Running Total: $" + String.format("%.2f",subTotal + basePrice));
+        runningTotal.setText("Running Total: $" + String.format("%.2f",subTotal + basePrice + priceOfAddIns));
     }
 
     public void irishCreamSelect(View view) {
         if(!irishCream.isChecked()){
-            basePrice -= addOnPrice;
+            priceOfAddIns -= addOnPrice;
         }
         else{
-            basePrice += addOnPrice;
+            priceOfAddIns += addOnPrice;
         }
-        runningTotal.setText("Running Total: $" + String.format("%.2f",subTotal + basePrice));
+        runningTotal.setText("Running Total: $" + String.format("%.2f",subTotal + basePrice + priceOfAddIns));
     }
 
     public void caramelSelect(View view) {
         if(!caramel.isChecked()){
-            basePrice -= addOnPrice;
+            priceOfAddIns -= addOnPrice;
         }
         else{
-            basePrice += addOnPrice;
+            priceOfAddIns += addOnPrice;
         }
-        runningTotal.setText("Running Total: $" + String.format("%.2f",subTotal + basePrice));
+        runningTotal.setText("Running Total: $" + String.format("%.2f",subTotal + basePrice + priceOfAddIns));
     }
 
 
     public void mochaSelect(View view) {
         if(!mocha.isChecked()){
-            basePrice -= addOnPrice;
+            priceOfAddIns -= addOnPrice;
         }
         else{
-            basePrice += addOnPrice;
+            priceOfAddIns += addOnPrice;
         }
-        runningTotal.setText("Running Total: $ " + String.format("%.2f",subTotal + basePrice));
+        runningTotal.setText("Running Total: $ " + String.format("%.2f",subTotal + basePrice + priceOfAddIns));
     }
 
     public void shortSelect(View view) {
         basePrice = 1.89;
-        runningTotal.setText("Running Total: $" + String.format("%.2f",subTotal + basePrice));
+        runningTotal.setText("Running Total: $" + String.format("%.2f",subTotal + basePrice + priceOfAddIns));
     }
 
     public void tallSelect(View view) {
         basePrice = 2.29;
-        runningTotal.setText("Running Total: $" + String.format("%.2f",subTotal + basePrice));
+        runningTotal.setText("Running Total: $" + String.format("%.2f",subTotal + basePrice + priceOfAddIns));
     }
 
     public void grandeSelect(View view) {
         basePrice = 2.69;
-        runningTotal.setText("Running Total: $" + String.format("%.2f",subTotal + basePrice));
+        runningTotal.setText("Running Total: $" + String.format("%.2f",subTotal + basePrice + priceOfAddIns));
     }
 
     public void ventiSelect(View view) {
         basePrice = 3.09;
-        runningTotal.setText("Running Total: $" + String.format("%.2f",subTotal + basePrice));
+        runningTotal.setText("Running Total: $" + String.format("%.2f",subTotal + basePrice + priceOfAddIns));
     }
 
     private boolean isInt(String str){
@@ -239,11 +237,11 @@ public class CoffeeActivity extends AppCompatActivity {
                 if(coffeeQuantity > 0 && coffeeQuantity < 6) {
                     Coffee coffee = new Coffee(size);
                     coffee.setQuantity(coffeeQuantity);
-                    if (sweetCream.isSelected()) coffee.addIn("sweet cream");
-                    if (frenchVanilla.isSelected()) coffee.addIn("french vanilla");
-                    if (irishCream.isSelected()) coffee.addIn("irish cream");
-                    if (caramel.isSelected()) coffee.addIn("caramel");
-                    if (mocha.isSelected()) coffee.addIn("mocha");
+                    if (sweetCream.isChecked()) coffee.addIn("sweet cream");
+                    if (frenchVanilla.isChecked()) coffee.addIn("french vanilla");
+                    if (irishCream.isChecked()) coffee.addIn("irish cream");
+                    if (caramel.isChecked()) coffee.addIn("caramel");
+                    if (mocha.isChecked()) coffee.addIn("mocha");
                     addToOrder(coffee, orderArchive.getArchive().get(archiveIndex));
                     reset();
                 }
@@ -254,7 +252,7 @@ public class CoffeeActivity extends AppCompatActivity {
     public void coffeeAdd(View view) {
         add();
         info.setOrderArchive(orderArchive);
-        Toast toast = Toast.makeText(this,"Coffee added to order", Toast.LENGTH_SHORT); toast.show();
+        Toast toast = Toast.makeText(this,R.string.coffee_added_message, Toast.LENGTH_SHORT); toast.show();
         reset();
     }
 

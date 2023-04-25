@@ -1,7 +1,11 @@
 package softwaremethodology.rutgerscafe;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.ClipData;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -16,68 +20,70 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 
 public class DonutActivity extends AppCompatActivity {
 
     private GlobalInformation info;
     private OrderArchive orderArchive;
+    private RecyclerView donutView;
 
-    private Spinner donutFlavor;
-    private Spinner donutType;
+
     private ArrayAdapter<String> adapter;
+    private ArrayList<Donut> itemList = new ArrayList<>();
     private EditText quantityDonutsField;
     private TextView runningTotalDonuts;
-    private ImageView donutImage;
+
 
     private String donutTypes[] = {"Yeast","Cake","Donut Holes"};
     private String yeastFlavors[] = {"Plain","Chocolate","Vanilla","Powder","Strawberry","Jelly"};
     private String cakeFlavors[] = {"Vanilla","Chocolate","Red Velvet"};
     private String donutHoleFlavors[] = {"Glazed","Chocolate","Powdered"};
 
+    private String donuts[] = {"Yeast-Plain", "Yeast-Chocolate", "Yeast-Vanilla", "Yeast-Powder",
+        "Yeast-Strawberry", "Yeast-Jelly", "Cake-Vanilla", "Cake-Chocolate", "Cake-Red Velvet",
+        "Donut Holes-Glazed","Donut Holes-Chocolate", "Donut Holes-Powdered"};
+
+    private int donutImages[] = {R.drawable.yeastdonut, R.drawable.chocolateyeast,R.drawable.vanillayeast,R.drawable.powderyeast,
+        R.drawable.strawberryyeast,R.drawable.yeastjelly,R.drawable.vanillacake,R.drawable.chocolatecake,R.drawable.redvelvet,
+        R.drawable.glazedholes,R.drawable.chocolateholes,R.drawable.powderedholes};
+
+    private void setUpMenuItems(){
+        for(int i = 0; i < donuts.length; i++){
+            String splitArr[] = donuts[i].split("-");
+            Donut donut = new Donut(splitArr[0],splitArr[1],donutImages[i]);
+            itemList.add(donut);
+        }
+    }
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_donut);
-
-        quantityDonutsField = findViewById(R.id.quantityField);
+        //quantityDonutsField = findViewById(R.id.quantityField);
         runningTotalDonuts = (TextView) findViewById(R.id.donutRunningTotal);
-        donutType = findViewById(R.id.donutType);
-        donutFlavor = findViewById(R.id.donutFlavor);
-        donutImage = findViewById(R.id.donutImageView);
-        adapter = new ArrayAdapter<String>(this, androidx.appcompat.R.layout.support_simple_spinner_dropdown_item, donutTypes);
-        donutType.setAdapter(adapter);
-        adapter = new ArrayAdapter<String>(this, androidx.appcompat.R.layout.support_simple_spinner_dropdown_item,yeastFlavors);
-        donutFlavor.setAdapter(adapter);
-
         info = (GlobalInformation) getApplicationContext();
         orderArchive = info.getOrderArchive();
+        donutView = (RecyclerView) findViewById(R.id.donutView);
+        donutView = findViewById(R.id.donutView);
+        setUpMenuItems();
+        ItemsAdapter adapter = new ItemsAdapter(this,itemList,null);
+        donutView.setAdapter(adapter);
+        donutView.setLayoutManager(new LinearLayoutManager(this));
 
-        donutType.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+        adapter.setUpdateRunningTotal(new ItemsAdapter.UpdateRunningTotal() {
             @Override
-            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                if(adapterView.getSelectedItem().equals("Yeast")){
-                    adapter = new ArrayAdapter<String>(adapter.getContext(), androidx.constraintlayout.widget.R.layout.support_simple_spinner_dropdown_item, yeastFlavors);
-                    donutFlavor.setAdapter(adapter);
-                    donutImage.setImageResource(R.drawable.yeastdonut);
-                } else if (adapterView.getSelectedItem().equals("Cake")){
-                    adapter = new ArrayAdapter<String>(adapter.getContext(), androidx.constraintlayout.widget.R.layout.support_simple_spinner_dropdown_item, cakeFlavors);
-                    donutFlavor.setAdapter(adapter);
-                    donutImage.setImageResource(R.drawable.cakedonut);
-                } else if (adapterView.getSelectedItem().equals("Donut Holes")){
-                    adapter = new ArrayAdapter<String>(adapter.getContext(), androidx.constraintlayout.widget.R.layout.support_simple_spinner_dropdown_item, donutHoleFlavors);
-                    donutFlavor.setAdapter(adapter);
-                    donutImage.setImageResource(R.drawable.donutholes);
-
-                }
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> adapterView) {
-                //nothing
+            public void onUpdate() {
+                int archiveIndex = orderArchive.getCurrent();
+                String updatedTotal = "Running Total: $" + String.format("%.2f", orderArchive.getArchive().get(archiveIndex).getDonutCost());
+                runningTotalDonuts.setText(updatedTotal);
             }
         });
+
     }
+
+
 
     public void previous(View view) {
         Intent intent = new Intent(this, ActivityChooser.class);
@@ -94,13 +100,6 @@ public class DonutActivity extends AppCompatActivity {
         }
     }
 
-    private String getSelectedDonutType(){
-        return donutType.getSelectedItem().toString();
-    }
-
-    private String getSelectedFlavor(){
-        return donutFlavor.getSelectedItem().toString();
-    }
 
     private void addToOrder(Donut donutPtr, Order order){
         if(order.getList().contains(donutPtr)){
@@ -111,10 +110,11 @@ public class DonutActivity extends AppCompatActivity {
         }
     }
 
+    /*
     private void add(){
         int archiveIndex = orderArchive.getCurrent();
-        String donutType = getSelectedDonutType();
-        String flavor = getSelectedFlavor();
+        //String donutType = getSelectedDonutType();
+        //String flavor = getSelectedFlavor();
         if(flavor != null) {
             if (isInt(quantityDonutsField.getText().toString()) && Integer.parseInt(quantityDonutsField.getText().toString()) > 0) {
                 int quantityDonuts = Integer.parseInt(quantityDonutsField.getText().toString());
@@ -129,11 +129,12 @@ public class DonutActivity extends AppCompatActivity {
                 Toast toast = Toast.makeText(this,"Please enter an integer quantity",Toast.LENGTH_SHORT); toast.show();
             }
         }
-
     }
 
+     */
+
     public void donutAdd(View view) {
-        add();
+        //add();
         info.setOrderArchive(orderArchive);
     }
 
@@ -149,6 +150,7 @@ public class DonutActivity extends AppCompatActivity {
         }
     }
 
+    /*
     public void removeDonut(View view) {
         int archiveIndex = orderArchive.getCurrent();
         String donutType = getSelectedDonutType();
@@ -162,6 +164,10 @@ public class DonutActivity extends AppCompatActivity {
             quantityDonutsField.setText("0");
         }
         info.setOrderArchive(orderArchive);
-
     }
+
+     */
+
+
+
 }

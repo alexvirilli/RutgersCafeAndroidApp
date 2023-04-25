@@ -203,6 +203,14 @@ public class Order implements Serializable {
         }
     }
 
+    public int countItemsInOrder(){
+        int count = 0;
+        for(MenuItem menuItem : list){
+            count++;
+        }
+        return count;
+    }
+
     //setter
     public void setOrderPlaced(boolean orderPlaced){
         this.orderPlaced = orderPlaced;

@@ -38,4 +38,6 @@ public abstract class MenuItem implements Serializable {
      */
     public abstract void removeQuantity(int amount);
 
+    public abstract String getItemName();
+
 }

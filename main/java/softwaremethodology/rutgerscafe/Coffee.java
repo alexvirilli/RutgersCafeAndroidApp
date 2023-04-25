@@ -144,6 +144,10 @@ public class Coffee extends MenuItem{
         if(this.cupSize != coffee.getLiteralCupSize()) return false;
         return true;
     }
+
+    public String getItemName(){
+        return getSize() + " coffee";
+    }
 }
 
 

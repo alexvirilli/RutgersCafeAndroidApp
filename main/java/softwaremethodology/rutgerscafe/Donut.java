@@ -15,6 +15,7 @@ public class Donut extends MenuItem {
     private String donutType; //must be yeast, cake, or donutHole
     private String flavor;
     private int quantity;
+    private int image = -1;
 
     public static final double yeastPrice = 1.59;
     public static final double cakePrice = 1.79;
@@ -42,6 +43,19 @@ public class Donut extends MenuItem {
         this.donutType = donutType;
         this.quantity = quantity;
         this.flavor = "no flavor selected";
+    }
+
+    public Donut(String donutType, String flavor){
+        this.flavor = flavor;
+        this.donutType = donutType;
+        this.quantity = defaultQuantity;
+    }
+
+    public Donut(String donutType, String flavor, int image){
+        this.donutType = donutType;
+        this.flavor = flavor;
+        this.image = image;
+        this.quantity = 1;
     }
     //setter for flavor
     public void setFlavor(String flavor){
@@ -98,6 +112,14 @@ public class Donut extends MenuItem {
         if(!(obj instanceof Donut)) return false;
         Donut donut = (Donut) obj;
         return (this.donutType.equalsIgnoreCase(donut.getDonutType()) && this.flavor.equalsIgnoreCase(donut.getFlavor()));
+    }
+
+    public String getItemName(){
+        return this.donutType + " " + this.flavor;
+    }
+
+    public int getImage(){
+        return this.image;
     }
 
 }

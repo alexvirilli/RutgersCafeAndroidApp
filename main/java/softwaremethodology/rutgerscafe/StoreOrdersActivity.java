@@ -1,10 +1,13 @@
 package softwaremethodology.rutgerscafe;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
@@ -15,6 +18,7 @@ public class StoreOrdersActivity extends AppCompatActivity {
     private OrderArchive orderArchive;
     private ListView orders;
     private ArrayAdapter<String> arrayAdapter;
+    private int itemSelectedPosition = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,6 +28,13 @@ public class StoreOrdersActivity extends AppCompatActivity {
         orderArchive = info.getOrderArchive();
         orders = findViewById(R.id.storeOrders);
         orderArchive.displayOrders(orders);
+
+        orders.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
+                itemSelectedPosition = position;
+            }
+        });
     }
 
     public void ordersPrevious(View view) {
@@ -31,34 +42,44 @@ public class StoreOrdersActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
+    private void removeOrder(){
+        String orderToCancel = orders.getItemAtPosition(itemSelectedPosition).toString();
+        int indexOffset = 2;
+        int orderNumber = Integer.parseInt(orderToCancel.substring(orderToCancel.indexOf(". ") + indexOffset));
+        Order order = orderArchive.getOrder(orderNumber);
+        orderArchive.getArchive().remove(order);
+        orderArchive.displayOrders(orders);
+        orderArchive.decrementCurrent();
+        Toast toast = Toast.makeText(this, orderToCancel + " cancelled", Toast.LENGTH_SHORT);
+        toast.show();
+    }
+
 
     public void deleteOrder(View view) {
-        if (orders.getSelectedItemPosition() != -1) {
-            if (!(orders.getItemAtPosition(0) == null)) {
-                String orderToCancel = orders.getSelectedItem().toString();
+        if (itemSelectedPosition != -1) {
+            if (orderArchive.countOrders() != 0) {
+                String orderToCancel = orders.getItemAtPosition(itemSelectedPosition).toString();
                 if (orderToCancel.contains("no.")) {
-                    int indexOffset = 2;
-                    int orderNumber = Integer.parseInt(orderToCancel.substring(orderToCancel.indexOf(". ") + indexOffset));
-                    Order order = orderArchive.getOrder(orderNumber);
-                    orderArchive.getArchive().remove(order);
-
-
-                    //orders.getItems().clear();
-
-                    orderArchive.displayOrders(orders);
-                    orderArchive.decrementCurrent();
-                    Toast toast = Toast.makeText(this, orderToCancel + " cancelled", Toast.LENGTH_SHORT);
-                    toast.show();
+                new AlertDialog.Builder(this)
+                        .setTitle("Delete entry")
+                        .setMessage("Are you sure you want to delete " + orderToCancel + "?")
+                        .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                                removeOrder();
+                                itemSelectedPosition = 0;
+                            }
+                        })
+                        .setNegativeButton(android.R.string.no, null)
+                        .setIcon(android.R.drawable.ic_dialog_alert)
+                        .show();
                 } else {
-                    Toast toast = Toast.makeText(this, "Select an item with \"order no. x\"", Toast.LENGTH_SHORT);
-                    toast.show();
+                    Toast toast = Toast.makeText(this, R.string.order_no_error_message, Toast.LENGTH_SHORT); toast.show();
                 }
             } else {
-                Toast toast = Toast.makeText(this, "No orders!", Toast.LENGTH_SHORT);
-                toast.show();
+                Toast toast = Toast.makeText(this, R.string.no_orders_error_message, Toast.LENGTH_SHORT); toast.show();
             }
         } else {
-            Toast toast = Toast.makeText(this,"Please select an item",Toast.LENGTH_SHORT); toast.show();
+            Toast toast = Toast.makeText(this,R.string.unselected_item_error_message,Toast.LENGTH_SHORT); toast.show();
         }
     }
 }

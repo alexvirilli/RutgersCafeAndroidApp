@@ -13,4 +13,11 @@
     <string name="button2">Button</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="order_no_error_message">Select an item with "order no. x"</string>
+    <string name="no_orders_error_message">No orders!</string>
+    <string name="unselected_item_error_message">Please select an item</string>
+    <string name="confirm_delete_message">Are you sure you want to delete </string>
+    <string name="order_placed_message">Order placed!</string>
+    <string name="basket_empty_message">Basket empty!</string>
+    <string name="coffee_added_message">Coffee added to order</string>
 </resources>

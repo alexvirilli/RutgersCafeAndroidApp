@@ -14,39 +14,30 @@ import softwaremethodology.rutgerscafe.R;
 
 public class ActivityChooser extends AppCompatActivity {
 
-    private Button donutButton, coffeeButton, basketButton, storeOrdersButton;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chooser);
-        donutButton = findViewById(R.id.basketButton);
-        coffeeButton = findViewById(R.id.coffeeButton);
-        basketButton = findViewById(R.id.basketButton);
-        storeOrdersButton = findViewById(R.id.storeOrdersButton);
     }
 
-    public void donutClick(View view) {
+
+    public void donutImageOpenActivity(View view) {
         Intent intent = new Intent(this, DonutActivity.class);
-        //intent.putExtra("chooserToDonut",orderArchive);
         startActivity(intent);
     }
 
-    public void coffeeButton(View view) {
+    public void coffeeImageOpen(View view) {
         Intent intent = new Intent(this, CoffeeActivity.class);
-        //intent.putExtra("chooserToCoffee",orderArchive);
         startActivity(intent);
     }
 
-    public void basketOpen(View view) {
+    public void basketImageOpen(View view) {
         Intent intent = new Intent(this, BasketActivity.class);
-        //intent.putExtra("chooserToBasket",orderArchive);
         startActivity(intent);
     }
 
-    public void openStoreOrders(View view) {
+    public void storeOrdersImageOpen(View view) {
         Intent intent = new Intent(this, StoreOrdersActivity.class);
-        //intent.putExtra("chooserToStoreOrders",orderArchive);
         startActivity(intent);
     }
 }

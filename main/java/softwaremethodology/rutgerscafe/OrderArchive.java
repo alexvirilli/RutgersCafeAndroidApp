@@ -93,8 +93,14 @@ public class OrderArchive implements Serializable {
         }
 
     }
-
-
+    public static final int DEFAULT_STORE_ORDER_INDEX = -1;
+    public int countOrders(){
+        int count = DEFAULT_STORE_ORDER_INDEX;
+        for(Order order : orders){
+            count++;
+        }
+        return count;
+    }
 
 }
 

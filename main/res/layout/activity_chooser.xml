@@ -8,89 +8,53 @@
     tools:context=".ActivityChooser">
 
 
-    <Button
-        android:id="@+id/donutButton"
-        android:onClick="donutClick"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="74dp"
-        android:layout_marginTop="263dp"
-        android:text="Donuts"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <ImageView
-        android:id="@+id/imageView2"
+    <ImageButton
+        android:id="@+id/donutImageButton"
         android:layout_width="150dp"
         android:layout_height="157dp"
-        android:layout_marginStart="47dp"
-        android:layout_marginTop="395dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/basketicon" />
-
-    <Button
-        android:id="@+id/coffeeButton"
-        android:onClick="coffeeButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="260dp"
-        android:layout_marginEnd="68dp"
-        android:text="Coffee"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <ImageView
-        android:id="@+id/imageView3"
-        android:layout_width="148dp"
-        android:layout_height="152dp"
-        android:layout_marginTop="84dp"
-        android:layout_marginEnd="29dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/coffeeicon" />
-
-    <ImageView
-        android:id="@+id/imageView4"
-        android:layout_width="150dp"
-        android:layout_height="160dp"
-        android:layout_marginTop="395dp"
-        android:layout_marginEnd="29dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/ordersicon" />
-
-    <ImageView
-        android:id="@+id/imageView5"
-        android:layout_width="149dp"
-        android:layout_height="156dp"
-        android:layout_marginStart="47dp"
-        android:layout_marginTop="80dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="108dp"
+        android:onClick="donutImageOpenActivity"
+        android:scaleType="fitCenter"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/donuticon" />
 
-    <Button
-        android:id="@+id/basketButton"
-        android:onClick="basketOpen"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="78dp"
-        android:layout_marginTop="595dp"
-        android:text="basket"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <Button
-        android:id="@+id/storeOrdersButton"
-        android:onClick="openStoreOrders"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="592dp"
-        android:layout_marginEnd="32dp"
-        android:text="Store Orders"
+    <ImageButton
+        android:id="@+id/coffeeImageButton"
+        android:layout_width="190dp"
+        android:layout_height="143dp"
+        android:layout_marginTop="120dp"
+        android:layout_marginEnd="16dp"
+        android:onClick="coffeeImageOpen"
+        android:scaleType="fitCenter"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/coffeeicon" />
+
+    <ImageButton
+        android:id="@+id/basketImageButton"
+        android:onClick="basketImageOpen"
+        android:layout_width="158dp"
+        android:layout_height="162dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginBottom="222dp"
+        android:scaleType="fitCenter"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:srcCompat="@drawable/basketicon" />
+
+    <ImageButton
+        android:id="@+id/storeOrdersImageButton"
+        android:onClick="storeOrdersImageOpen"
+        android:layout_width="165dp"
+        android:layout_height="168dp"
+        android:layout_marginEnd="31dp"
+        android:layout_marginBottom="222dp"
+        android:scaleType="fitCenter"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:srcCompat="@drawable/ordersicon" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
 
