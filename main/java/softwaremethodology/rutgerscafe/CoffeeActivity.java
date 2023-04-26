@@ -57,7 +57,7 @@ public class CoffeeActivity extends AppCompatActivity {
         caramel = findViewById(R.id.caramel);
         shortSize = findViewById(R.id.shortSize);
         tallSize = findViewById(R.id.tallSize);
-        grandeSize = findViewById(R.id.tallSize);
+        grandeSize = findViewById(R.id.grandeSize);
         ventiSize = findViewById(R.id.ventiSize);
         runningTotal = findViewById(R.id.coffeeRunningTotal);
         shortSize.setChecked(true);
@@ -69,10 +69,6 @@ public class CoffeeActivity extends AppCompatActivity {
     public void previousCoffee(View view) {
         Intent intent = new Intent(this, ActivityChooser.class);
         startActivity(intent);
-    }
-
-    public void calculateTotal(){
-
     }
 
     private int getSelectedSize(){
@@ -243,6 +239,7 @@ public class CoffeeActivity extends AppCompatActivity {
                     if (caramel.isChecked()) coffee.addIn("caramel");
                     if (mocha.isChecked()) coffee.addIn("mocha");
                     addToOrder(coffee, orderArchive.getArchive().get(archiveIndex));
+
                     reset();
                 }
             }
@@ -253,7 +250,6 @@ public class CoffeeActivity extends AppCompatActivity {
         add();
         info.setOrderArchive(orderArchive);
         Toast toast = Toast.makeText(this,R.string.coffee_added_message, Toast.LENGTH_SHORT); toast.show();
-        reset();
     }
 
 

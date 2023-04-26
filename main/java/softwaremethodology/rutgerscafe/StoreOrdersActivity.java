@@ -18,7 +18,7 @@ public class StoreOrdersActivity extends AppCompatActivity {
     private OrderArchive orderArchive;
     private ListView orders;
     private ArrayAdapter<String> arrayAdapter;
-    private int itemSelectedPosition = 0;
+    private int itemSelectedPosition = NOT_FOUND;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,10 +53,10 @@ public class StoreOrdersActivity extends AppCompatActivity {
         Toast toast = Toast.makeText(this, orderToCancel + " cancelled", Toast.LENGTH_SHORT);
         toast.show();
     }
-
+    public static final int NOT_FOUND = -1;
 
     public void deleteOrder(View view) {
-        if (itemSelectedPosition != -1) {
+        if (itemSelectedPosition != NOT_FOUND) {
             if (orderArchive.countOrders() != 0) {
                 String orderToCancel = orders.getItemAtPosition(itemSelectedPosition).toString();
                 if (orderToCancel.contains("no.")) {
@@ -65,8 +65,7 @@ public class StoreOrdersActivity extends AppCompatActivity {
                         .setMessage("Are you sure you want to delete " + orderToCancel + "?")
                         .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int which) {
-                                removeOrder();
-                                itemSelectedPosition = 0;
+                                removeOrder(); itemSelectedPosition = NOT_FOUND;
                             }
                         })
                         .setNegativeButton(android.R.string.no, null)

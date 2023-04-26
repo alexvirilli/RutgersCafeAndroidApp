@@ -28,10 +28,8 @@ public class DonutActivity extends AppCompatActivity {
     private OrderArchive orderArchive;
     private RecyclerView donutView;
 
-
     private ArrayAdapter<String> adapter;
     private ArrayList<Donut> itemList = new ArrayList<>();
-    private EditText quantityDonutsField;
     private TextView runningTotalDonuts;
 
 
@@ -82,92 +80,9 @@ public class DonutActivity extends AppCompatActivity {
         });
 
     }
-
-
-
     public void previous(View view) {
         Intent intent = new Intent(this, ActivityChooser.class);
-        //intent.putExtra("donutToChooser",orderArchive);
         startActivity(intent);
     }
-
-    private boolean isInt(String str){
-        try{
-            Integer.parseInt(str);
-            return true;
-        } catch (NumberFormatException ex){
-            return false;
-        }
-    }
-
-
-    private void addToOrder(Donut donutPtr, Order order){
-        if(order.getList().contains(donutPtr)){
-            Donut donut = order.getDonut(donutPtr);
-            donut.addQuantity(donutPtr.getQuantity());
-        } else {
-            order.getList().add(donutPtr);
-        }
-    }
-
-    /*
-    private void add(){
-        int archiveIndex = orderArchive.getCurrent();
-        //String donutType = getSelectedDonutType();
-        //String flavor = getSelectedFlavor();
-        if(flavor != null) {
-            if (isInt(quantityDonutsField.getText().toString()) && Integer.parseInt(quantityDonutsField.getText().toString()) > 0) {
-                int quantityDonuts = Integer.parseInt(quantityDonutsField.getText().toString());
-                Donut donut = new Donut(donutType, quantityDonuts);
-                donut.setFlavor(flavor);
-                addToOrder(donut, orderArchive.getArchive().get(archiveIndex));
-                String updatedTotal = "Running Total: $" + String.format("%.2f", orderArchive.getArchive().get(archiveIndex).getDonutCost());
-                runningTotalDonuts.setText(updatedTotal);
-                quantityDonutsField.setText("0");
-                Toast toast = Toast.makeText(this, "Added to order",Toast.LENGTH_SHORT); toast.show();
-            } else {
-                Toast toast = Toast.makeText(this,"Please enter an integer quantity",Toast.LENGTH_SHORT); toast.show();
-            }
-        }
-    }
-
-     */
-
-    public void donutAdd(View view) {
-        //add();
-        info.setOrderArchive(orderArchive);
-    }
-
-    private void removeFromOrder(Donut donutPtr, Order order){
-        if(order.contains(donutPtr)){
-            Donut listedDonut = order.getDonut(donutPtr);
-            int quantityToRemove = donutPtr.getQuantity();
-            if(listedDonut.getQuantity() > quantityToRemove) listedDonut.removeQuantity(quantityToRemove);
-            else if(listedDonut.getQuantity() == quantityToRemove) order.getList().remove(donutPtr);
-            else { Toast toast = Toast.makeText(this,"Quantity to remove exceeds quantity in order",Toast.LENGTH_SHORT); toast.show(); }
-        } else {
-            Toast toast = Toast.makeText(this, "Donut is not in order",Toast.LENGTH_SHORT); toast.show();
-        }
-    }
-
-    /*
-    public void removeDonut(View view) {
-        int archiveIndex = orderArchive.getCurrent();
-        String donutType = getSelectedDonutType();
-        String flavor = getSelectedFlavor();
-        if(isInt(quantityDonutsField.getText().toString())){
-            int quantityDonuts = Integer.parseInt(quantityDonutsField.getText().toString());
-            Donut donut = new Donut(donutType,quantityDonuts);
-            donut.setFlavor(flavor);
-            removeFromOrder(donut, orderArchive.getArchive().get(archiveIndex));
-            runningTotalDonuts.setText("Running Total: $" + String.format("%.2f", orderArchive.getArchive().get(archiveIndex).getDonutCost()));
-            quantityDonutsField.setText("0");
-        }
-        info.setOrderArchive(orderArchive);
-    }
-
-     */
-
-
 
 }

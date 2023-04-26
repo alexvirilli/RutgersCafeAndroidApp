@@ -79,20 +79,6 @@ public class OrderArchive implements Serializable {
         ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(listView.getContext(), android.R.layout.simple_list_item_1,arrayList);
         listView.setAdapter(arrayAdapter);
     }
-    /**
-     * printwriteOrders() - prints the orders to the file
-     * @param output
-     */
-    public void printwriteOrders(PrintWriter output){
-        for(Order order : orders) {
-            if(order.getList().size() > 0 && order.getOrderPlaced()) {
-                output.println("order no. " + order.getOrderNumber());
-                order.printwriteOrder(output);
-                output.println("subtotal: $" + String.format("%.2f", order.getSubTotal()) + " sales tax: $" + String.format("%.2f", order.getSalesTax()) + " total: $" + String.format("%.2f", order.getTotal()));
-            }
-        }
-
-    }
     public static final int DEFAULT_STORE_ORDER_INDEX = -1;
     public int countOrders(){
         int count = DEFAULT_STORE_ORDER_INDEX;

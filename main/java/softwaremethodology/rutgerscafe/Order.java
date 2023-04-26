@@ -163,15 +163,6 @@ public class Order implements Serializable {
     }
 
     /**
-     * printOrder() - prints the order to the console
-     */
-    public void printOrder(){
-        for(MenuItem menuItem : list){
-            System.out.println(menuItem.toString());
-        }
-    }
-
-    /**
      * getObservableList() - returns an observable list of the order
      * @return observableList
      */
@@ -191,17 +182,6 @@ public class Order implements Serializable {
         return getSubTotal() + getSalesTax();
     }
 
-    /**
-     * printwriteOrder() - prints the order to a file
-     * @param output
-     */
-    public void printwriteOrder(PrintWriter output){
-        ArrayList<String> observableList = new ArrayList<>();
-        for(int i = 0; i < list.size(); i++){
-            observableList.add(list.get(i).toString());
-            output.println(observableList.get(i));
-        }
-    }
 
     public int countItemsInOrder(){
         int count = 0;
